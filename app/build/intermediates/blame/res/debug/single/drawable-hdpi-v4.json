@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "C:\\AndroidStudioProjects\\callrecorder-master1\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\icon.png",
+        "source": "C:\\AndroidStudioProjects\\callrecorder-master1\\app\\src\\main\\res\\drawable-hdpi\\icon.png"
+    },
+    {
+        "merged": "C:\\AndroidStudioProjects\\callrecorder-master1\\app\\build\\intermediates\\res\\merged\\debug\\drawable-hdpi-v4\\rec.png",
+        "source": "C:\\AndroidStudioProjects\\callrecorder-master1\\app\\src\\main\\res\\drawable-hdpi\\rec.png"
+    }
+]

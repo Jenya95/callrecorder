@@ -1,0 +1,22 @@
+[
+    {
+        "merged": "C:\\AndroidStudioProjects\\callrecorder-master1\\app\\build\\intermediates\\res\\merged\\debug\\layout\\preferences.xml",
+        "source": "C:\\AndroidStudioProjects\\callrecorder-master1\\app\\src\\main\\res\\layout\\preferences.xml"
+    },
+    {
+        "merged": "C:\\AndroidStudioProjects\\callrecorder-master1\\app\\build\\intermediates\\res\\merged\\debug\\layout\\tab_indicator.xml",
+        "source": "C:\\AndroidStudioProjects\\callrecorder-master1\\app\\src\\main\\res\\layout\\tab_indicator.xml"
+    },
+    {
+        "merged": "C:\\AndroidStudioProjects\\callrecorder-master1\\app\\build\\intermediates\\res\\merged\\debug\\layout\\main.xml",
+        "source": "C:\\AndroidStudioProjects\\callrecorder-master1\\app\\src\\main\\res\\layout\\main.xml"
+    },
+    {
+        "merged": "C:\\AndroidStudioProjects\\callrecorder-master1\\app\\build\\intermediates\\res\\merged\\debug\\layout\\player.xml",
+        "source": "C:\\AndroidStudioProjects\\callrecorder-master1\\app\\src\\main\\res\\layout\\player.xml"
+    },
+    {
+        "merged": "C:\\AndroidStudioProjects\\callrecorder-master1\\app\\build\\intermediates\\res\\merged\\debug\\layout\\call_log.xml",
+        "source": "C:\\AndroidStudioProjects\\callrecorder-master1\\app\\src\\main\\res\\layout\\call_log.xml"
+    }
+]

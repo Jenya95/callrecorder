@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\AndroidStudioProjects\callrecorder-master1\app\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="94fa0420e964f01644ef9077a355afd3761608b0">
+        <dex dex="C:\AndroidStudioProjects\callrecorder-master1\app\build\intermediates\pre-dexed\debug\instant-run_e5c457416e4e2c2217fd5233a606b281f3bd6594.jar" />
+    </item>
+    <item
+        jar="C:\AndroidStudioProjects\callrecorder-master1\app\build\intermediates\incremental-classes\debug\classes.jar"
+        jumboMode="false"
+        revision="23.0.2"
+        sha1="43ee2499e4fe59679f6b9c70dbfa32d1d178f001">
+        <dex dex="C:\AndroidStudioProjects\callrecorder-master1\app\build\intermediates\pre-dexed\debug\classes_1720f99c43fd1e4126550ed30079a94aa55993a3.jar" />
+    </item>
+
+</items>
