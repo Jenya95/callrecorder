@@ -1,16 +1,13 @@
 package com.talentcodeworks.callrecorder;
 
 import android.app.TabActivity;
-import android.os.Bundle;
-import android.util.Log;
-
-import android.content.Intent;
-import android.view.View;
-import android.view.Menu;
 import android.content.ComponentName;
 import android.content.Context;
-import android.view.View;
+import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -51,7 +48,7 @@ public class CallRecorder
         public MyTabIndicator(Context context, String label)
         {
             super(context);
-            
+
             View tab = LayoutInflater.from(context).inflate(R.layout.tab_indicator, this);
 
             TextView tv = (TextView)tab.findViewById(R.id.tab_label);
