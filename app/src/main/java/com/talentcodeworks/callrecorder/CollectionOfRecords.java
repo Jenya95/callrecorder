@@ -22,7 +22,7 @@ import android.util.Log;
 public class CollectionOfRecords implements LocationListener {
 
     private Context context;
-    private TelephonyManager manager=(TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
+    private TelephonyManager manager;
     protected LocationManager locationManager;
     public double latitude=0;
     public double longitude=0;
@@ -32,15 +32,20 @@ public class CollectionOfRecords implements LocationListener {
     public String phoneType = "";
 
 
-    public CollectionOfRecords(Context _context, String prefix, String suffix) {
-        context = _context; //здесь при вызове конструкотра в коллекцию должна добавляться запись
-                            //с необходимыми полями
+    public CollectionOfRecords(Context _context, String prefix) {
+        context = _context;
+        manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
         locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        fillFields(prefix);
+    }
+
+    public void fillFields(String s)
+    {
 
         latitude = getLatitude();
         longitude = getLongitude();
-        nameOfFile = setName(prefix,suffix);
+        nameOfFile = setName(s);
         netType = getNetType();
         IMEI = getIMEINumber();
         phoneType = getPhoneType();
@@ -113,8 +118,8 @@ public class CollectionOfRecords implements LocationListener {
         return longitude;
     }
 
-    public String setName(String a, String b)
+    public String setName(String a)
     {
-        return a+b;
+        return a;
     }
 }

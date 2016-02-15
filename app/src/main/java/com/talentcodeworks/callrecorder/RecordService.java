@@ -105,9 +105,11 @@ public class RecordService
 
     }
 
-    public void createStatClass(String prefix, String suffix) //и куда его блин вставить??
+    public void createStatClass(String prefix)
     {
-        CollectionOfRecords current = new CollectionOfRecords(context, prefix, suffix);
+        Context c = getApplicationContext();
+        CollectionOfRecords current = new CollectionOfRecords(c, prefix);
+        int a=0;
     }
 
     public void onCreate()
@@ -202,6 +204,11 @@ public class RecordService
             recorder.release();
             Toast t = Toast.makeText(getApplicationContext(), "CallRecorder finished recording call to " + recording, Toast.LENGTH_LONG);
             t.show();
+
+
+            createStatClass(recording.getName());
+
+
 
             /*
             // encrypt the recording
