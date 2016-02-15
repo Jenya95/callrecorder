@@ -29,7 +29,7 @@ public class RecordService
 
     public static final String DEFAULT_STORAGE_LOCATION = Environment.getExternalStorageDirectory().getPath()+"/callrecorder";
     private static final int RECORDING_NOTIFICATION_ID = 1;
-
+    private Context context;
     private MediaRecorder recorder = null;
     private boolean isRecording = false;
     private File recording = null;;
@@ -93,7 +93,6 @@ public class RecordService
             suffix = ".amr";
             break;
         }
-
         try {
             return File.createTempFile(prefix, suffix, dir);
         } catch (IOException e) {
@@ -102,6 +101,13 @@ public class RecordService
             t.show();
             return null;
         }
+
+
+    }
+
+    public void createStatClass(String prefix, String suffix) //и куда его блин вставить??
+    {
+        CollectionOfRecords current = new CollectionOfRecords(context, prefix, suffix);
     }
 
     public void onCreate()
