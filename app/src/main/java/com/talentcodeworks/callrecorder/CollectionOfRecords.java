@@ -10,28 +10,31 @@ import android.telephony.gsm.GsmCellLocation;
 
 /**
  * Created by Женя on 14.02.2016.
- * Класс возвращает информацию о статистике совершенного звонка:
- * getIMEINumber() - номер IMEI
- * getNetType() - тип сети передачи данных
- * getPhoneType() - тип сети радиосвязи
- * getLatitude() - широта
- * getLongitude() - долгота
+ * Класс содержит поля:
+ * IMEI - номер IMEI
+ * netType - тип сети передачи данных
+ * phoneType - тип сети радиосвязи
+ * latitude - широта
+ * longitude - долгота
+ * cellId - ID базовой станции
  * setName(String, String) - запись имени файла
+ * myPhoneNumber - номер устройства, на котором запущено приложжение
+ * externalPhoneNumber - номер устройства, с которым был разговор
  */
 public class CollectionOfRecords {
 
     private Context context;
     private TelephonyManager manager;
-    protected LocationManager locationManager;
     public double latitude=0;
     public double longitude=0;
     public String nameOfFile = "";
     public String netType = "";
     public String IMEI = "";
     public String phoneType = "";
+    public String myPhoneNumber = "";
+    public String externalPhoneNumber = "";
     public int cellId = 0;
     public int signalStrength = 0;
-    private String provider;
 
 
     public CollectionOfRecords(Context _context, String prefix) {
@@ -49,6 +52,8 @@ public class CollectionOfRecords {
         phoneType = getPhoneType();
         cellId = getCellId();
         signalStrength = getSignalStrengthInDbm();
+        myPhoneNumber = getPhoneNumber();
+        externalPhoneNumber = getExternalPhoneNumber();
     }
 
     public String getIMEINumber()
@@ -121,6 +126,19 @@ public class CollectionOfRecords {
     public String setName(String a)
     {
         return a;
+    }
+
+    public String getPhoneNumber()
+    {
+        String mPhoneNumber = manager.getLine1Number();
+        return mPhoneNumber;
+    }
+
+    public String getExternalPhoneNumber()
+    {
+        String lastDialed = android.provider.CallLog.Calls.getLastOutgoingCall(context);
+
+        return lastDialed;
     }
 
 }
