@@ -34,7 +34,7 @@ public class CollectionOfRecords {
     public String myPhoneNumber = "";
     public String externalPhoneNumber = "";
     public int cellId = 0;
-    public int signalStrength = 0;
+    public int signalStrength  = 0;
 
 
     public CollectionOfRecords(Context _context, String prefix) {
@@ -100,11 +100,7 @@ public class CollectionOfRecords {
 
     public int getSignalStrengthInDbm() { //TODO допилить силу сигнала
 
-       /* CellInfoGsm cellinfogsm = (CellInfoGsm)manager.getAllCellInfo().get(0);
-        CellSignalStrengthGsm cellSignalStrengthGsm = cellinfogsm.getCellSignalStrength();
-        int signalStrenght = cellSignalStrengthGsm.getDbm();
-        */
-        return 0;
+        return signalStrength;
     }
 
     private void _getLocation() {

@@ -16,6 +16,8 @@ import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 //import java.security.KeyPairGenerator;
 //import java.security.KeyPair;
@@ -32,7 +34,8 @@ public class RecordService
     private Context context;
     private MediaRecorder recorder = null;
     private boolean isRecording = false;
-    private File recording = null;;
+    private File recording = null;
+    public List<CollectionOfRecords> statCollection = new LinkedList<>();
 
     /*
     private static void test() throws java.security.NoSuchAlgorithmException
@@ -108,7 +111,7 @@ public class RecordService
     public void createStatClass(String prefix)
     {
         Context c = getApplicationContext();
-        CollectionOfRecords current = new CollectionOfRecords(c, prefix);
+        statCollection.add(new CollectionOfRecords(c, prefix));
         int a=0;
     }
 
