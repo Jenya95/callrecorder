@@ -1,13 +1,11 @@
 package com.talentcodeworks.callrecorder;
 
 import android.content.Context;
+import android.location.Criteria;
 import android.location.Location;
-import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.telephony.gsm.GsmCellLocation;
-import android.util.Log;
 
 
 /**
@@ -20,7 +18,7 @@ import android.util.Log;
  * getLongitude() - долгота
  * setName(String, String) - запись имени файла
  */
-public class CollectionOfRecords implements LocationListener {
+public class CollectionOfRecords {
 
     private Context context;
     private TelephonyManager manager;
@@ -33,21 +31,18 @@ public class CollectionOfRecords implements LocationListener {
     public String phoneType = "";
     public int cellId = 0;
     public int signalStrength = 0;
+    private String provider;
 
 
     public CollectionOfRecords(Context _context, String prefix) {
         context = _context;
         manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
         fillFields(prefix);
     }
 
     public void fillFields(String s)
     {
-
-        latitude = getLatitude();
-        longitude = getLongitude();
+        _getLocation();
         nameOfFile = setName(s);
         netType = getNetType();
         IMEI = getIMEINumber();
@@ -80,27 +75,6 @@ public class CollectionOfRecords implements LocationListener {
 
     }
 
-    @Override
-    public void onLocationChanged(Location location) {
-        latitude = location.getLatitude();
-        longitude = location.getLongitude();
-    }
-
-    @Override
-    public void onProviderDisabled(String provider) {
-        Log.d("Latitude","disable");
-    }
-
-    @Override
-    public void onProviderEnabled(String provider) {
-        Log.d("Latitude","enable");
-    }
-
-    @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-        Log.d("Latitude","status");
-    }
-
     public String getPhoneType()
     {
         int i = manager.getPhoneType();
@@ -128,18 +102,25 @@ public class CollectionOfRecords implements LocationListener {
         return 0;
     }
 
-    public double getLatitude()
-    {
-        return latitude;
+    private void _getLocation() {
+        // Get the location manager
+        LocationManager locationManager = (LocationManager) context.getSystemService(context.LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+        String bestProvider = locationManager.getBestProvider(criteria, false);
+        Location location = locationManager.getLastKnownLocation(bestProvider);
+        try {
+            latitude = location.getLatitude();
+            longitude = location.getLongitude();
+        } catch (NullPointerException e) {
+            latitude = -1.0;
+            longitude = -1.0;
+        }
     }
 
-    public double getLongitude()
-    {
-        return longitude;
-    }
 
     public String setName(String a)
     {
         return a;
     }
+
 }
