@@ -6,6 +6,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
+import android.telephony.gsm.GsmCellLocation;
 import android.util.Log;
 
 
@@ -30,6 +31,8 @@ public class CollectionOfRecords implements LocationListener {
     public String netType = "";
     public String IMEI = "";
     public String phoneType = "";
+    public int cellId = 0;
+    public int signalStrength = 0;
 
 
     public CollectionOfRecords(Context _context, String prefix) {
@@ -49,6 +52,8 @@ public class CollectionOfRecords implements LocationListener {
         netType = getNetType();
         IMEI = getIMEINumber();
         phoneType = getPhoneType();
+        cellId = getCellId();
+        signalStrength = getSignalStrengthInDbm();
     }
 
     public String getIMEINumber()
@@ -106,6 +111,21 @@ public class CollectionOfRecords implements LocationListener {
         case 3: return "Phone is via SIP";
         default: return "Unknown";
         }
+    }
+
+    public int getCellId() {
+        GsmCellLocation cl = (GsmCellLocation) manager.getCellLocation();
+        int cellId = cl.getCid();
+        return cellId;
+    }
+
+    public int getSignalStrengthInDbm() { //TODO допилить силу сигнала
+
+       /* CellInfoGsm cellinfogsm = (CellInfoGsm)manager.getAllCellInfo().get(0);
+        CellSignalStrengthGsm cellSignalStrengthGsm = cellinfogsm.getCellSignalStrength();
+        int signalStrenght = cellSignalStrengthGsm.getDbm();
+        */
+        return 0;
     }
 
     public double getLatitude()
