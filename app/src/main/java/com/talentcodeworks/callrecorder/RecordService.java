@@ -12,8 +12,13 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.URL;
+import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
@@ -108,11 +113,31 @@ public class RecordService
 
     }
 
-    public void createStatClass(String prefix)
-    {
+    public void createStatClass(String prefix) throws Exception {
         Context c = getApplicationContext();
+        CollectionOfRecords cur = new CollectionOfRecords(c, prefix);
+        sendPost(cur);
         statCollection.add(new CollectionOfRecords(c, prefix));
+
         int a=0;
+    }
+
+    public  void sendPost(CollectionOfRecords cur) throws Exception
+    {
+        URL url = new URL("localhost:8080");
+        URLConnection conn = url.openConnection();
+        conn.setDoOutput(true);
+        OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());
+
+        writer.write("value=1&anotherValue=1");
+        writer.flush();
+        String line;
+        BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+        while ((line = reader.readLine()) != null) {
+            System.out.println(line);
+        }
+        writer.close();
+        reader.close();
     }
 
     public void onCreate()
@@ -209,7 +234,11 @@ public class RecordService
             t.show();
 
 
-            createStatClass(recording.getName());
+            try {
+                createStatClass(recording.getName());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
 
 
