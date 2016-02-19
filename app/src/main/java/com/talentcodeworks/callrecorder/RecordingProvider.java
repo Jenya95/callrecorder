@@ -25,6 +25,7 @@ public class RecordingProvider extends ContentProvider
                                                                          null,
                                                                          DATABASE_VERSION);
         recordingsDB = dbHelper.getWritableDatabase();
+        Log.i(TAG,"database created");
         return (recordingsDB == null) ? false : true;
     }
 
@@ -131,6 +132,7 @@ public class RecordingProvider extends ContentProvider
         }
         
         getContext().getContentResolver().notifyChange(uri, null);
+        Log.i(TAG,"database updated");
         return count;
     }
       
