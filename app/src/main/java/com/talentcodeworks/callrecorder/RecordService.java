@@ -124,9 +124,9 @@ public class RecordService
 
     public  void sendPost(CollectionOfRecords cur) throws Exception
     {
-        URL url = new URL("localhost:8080");
+        URL url = new URL("http://10.0.0.31");
         URLConnection conn = url.openConnection();
-        conn.setDoOutput(true);
+        conn.setDoOutput(true);  //не годиться - нужно пилить AsyncTask
         OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());
 
         writer.write("value=1&anotherValue=1");
