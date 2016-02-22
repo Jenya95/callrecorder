@@ -6,27 +6,29 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.media.MediaRecorder;
+import android.os.AsyncTask;
 import android.os.Environment;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.io.BufferedReader;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.URL;
-import java.net.URLConnection;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-//import java.security.KeyPairGenerator;
-//import java.security.KeyPair;
-//import java.security.Key;
 
 public class RecordService 
     extends Service
@@ -42,16 +44,6 @@ public class RecordService
     private File recording = null;
     public List<CollectionOfRecords> statCollection = new LinkedList<>();
 
-    /*
-    private static void test() throws java.security.NoSuchAlgorithmException
-    {
-        KeyPairGenerator kpg = KeyPairGenerator.getInstance("RSA");
-        kpg.initialize(2048);
-        KeyPair kp = kpg.genKeyPair();
-        Key publicKey = kp.getPublic();
-        Key privateKey = kp.getPrivate();
-    }
-    */
 
     private File makeOutputFile (SharedPreferences prefs)
     {
@@ -114,30 +106,42 @@ public class RecordService
     }
 
     public void createStatClass(String prefix) throws Exception {
+
         Context c = getApplicationContext();
         CollectionOfRecords cur = new CollectionOfRecords(c, prefix);
-        sendPost(cur);
+        new MyAsyncTask().execute("hello");
         statCollection.add(new CollectionOfRecords(c, prefix));
 
         int a=0;
     }
 
-    public  void sendPost(CollectionOfRecords cur) throws Exception
-    {
-        URL url = new URL("http://10.0.0.31");
-        URLConnection conn = url.openConnection();
-        conn.setDoOutput(true);  //не годиться - нужно пилить AsyncTask
-        OutputStreamWriter writer = new OutputStreamWriter(conn.getOutputStream());
-
-        writer.write("value=1&anotherValue=1");
-        writer.flush();
-        String line;
-        BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        while ((line = reader.readLine()) != null) {
-            System.out.println(line);
+    private class MyAsyncTask extends AsyncTask<String, Integer, Double> {
+        @Override
+        protected Double doInBackground(String... params) {
+            // TODO Auto-generated method stub
+            postData(params[0]);
+            return null;
         }
-        writer.close();
-        reader.close();
+    }
+
+    public void postData(String valueIWantToSend) {
+        HttpClient httpclient = new DefaultHttpClient();
+        // specify the URL you want to post to
+        HttpPost httppost = new HttpPost("http://10.0.0.31/reciever.php");
+        try {
+            // create a list to store HTTP variables and their values
+            List nameValuePairs = new ArrayList();
+            // add an HTTP variable and value pair
+            nameValuePairs.add(new BasicNameValuePair("myHttpData", valueIWantToSend));
+            httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+            // send the variable and value, in other words post, to the URL
+            HttpResponse response = httpclient.execute(httppost);
+            int a=0;
+        } catch (ClientProtocolException e) {
+            // process execption
+        } catch (IOException e) {
+            // process execption
+        }
     }
 
     public void onCreate()
