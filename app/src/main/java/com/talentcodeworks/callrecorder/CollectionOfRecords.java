@@ -1,9 +1,9 @@
 package com.talentcodeworks.callrecorder;
 
 import android.content.Context;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationManager;
+import android.database.Cursor;
+import android.net.Uri;
+import android.provider.CallLog;
 import android.telephony.TelephonyManager;
 import android.telephony.gsm.GsmCellLocation;
 
@@ -104,14 +104,9 @@ public class CollectionOfRecords {
     }
 
     private void _getLocation() {
-        // Get the location manager
-        LocationManager locationManager = (LocationManager) context.getSystemService(context.LOCATION_SERVICE);
-        Criteria criteria = new Criteria();
-        String bestProvider = locationManager.getBestProvider(criteria, false);
-        Location location = locationManager.getLastKnownLocation(bestProvider);
         try {
-            latitude = location.getLatitude();
-            longitude = location.getLongitude();
+            latitude=MyLocationListener.imHere.getLatitude();
+            longitude=MyLocationListener.imHere.getLongitude();
         } catch (NullPointerException e) {
             latitude = -1.0;
             longitude = -1.0;
@@ -132,9 +127,21 @@ public class CollectionOfRecords {
 
     public String getExternalPhoneNumber()
     {
-        String lastDialed = android.provider.CallLog.Calls.getLastOutgoingCall(context);
+        String phNumber="";
+        try {
+            Uri contacts = CallLog.Calls.CONTENT_URI;
+            Cursor managedCursor = context.getContentResolver().query(
+                    contacts, null, null, null, null);
+            int number = managedCursor.getColumnIndex( CallLog.Calls.NUMBER );
+            if( managedCursor.moveToFirst()) {
+                phNumber = managedCursor.getString( number );
+            }
+            managedCursor.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-        return lastDialed;
+        return phNumber;
     }
 
-}
+    }

@@ -28,6 +28,7 @@ public class CallRecorder
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+        MyLocationListener.SetUpLocationListener(this);
 
         setDefaultTab(0);
 
