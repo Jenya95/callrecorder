@@ -21,12 +21,16 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 
@@ -42,7 +46,6 @@ public class RecordService
     private MediaRecorder recorder = null;
     private boolean isRecording = false;
     private File recording = null;
-    public List<CollectionOfRecords> statCollection = new LinkedList<>();
 
 
     private File makeOutputFile (SharedPreferences prefs)
@@ -110,9 +113,6 @@ public class RecordService
         Context c = getApplicationContext();
         CollectionOfRecords cur = new CollectionOfRecords(c, prefix);
         new MyAsyncTask().execute(cur);
-        statCollection.add(new CollectionOfRecords(c, prefix));
-
-        int a=0;
     }
 
     private class MyAsyncTask extends AsyncTask<CollectionOfRecords, Integer, Double> {
@@ -120,7 +120,79 @@ public class RecordService
         protected Double doInBackground(CollectionOfRecords... params) {
             // TODO Auto-generated method stub
             postData(params[0]);
+            postFile(params[0]);
             return null;
+        }
+    }
+
+    public void postFile(CollectionOfRecords c)
+    {
+        HttpURLConnection connection = null;
+        DataOutputStream outputStream = null;
+        DataInputStream inputStream = null;
+        String pathToOurFile = "/storage/emulated/0/callrecorder/"+c.nameOfFile;
+        String urlServer = "http://10.0.0.31/handle_upload.php";
+        String lineEnd = "\r\n";
+        String twoHyphens = "--";
+        String boundary =  "*****";
+
+        int bytesRead, bytesAvailable, bufferSize;
+        byte[] buffer;
+        int maxBufferSize = 1*1024*1024;
+
+        try
+        {
+            FileInputStream fileInputStream = new FileInputStream(new File(pathToOurFile) );
+
+            URL url = new URL(urlServer);
+            connection = (HttpURLConnection) url.openConnection();
+
+            // Allow Inputs &amp; Outputs.
+            connection.setDoInput(true);
+            connection.setDoOutput(true);
+            connection.setUseCaches(false);
+
+            // Set HTTP method to POST.
+            connection.setRequestMethod("POST");
+
+            connection.setRequestProperty("Connection", "Keep-Alive");
+            connection.setRequestProperty("Content-Type", "multipart/form-data;boundary="+boundary);
+
+            outputStream = new DataOutputStream( connection.getOutputStream() );
+            outputStream.writeBytes(twoHyphens + boundary + lineEnd);
+            outputStream.writeBytes("Content-Disposition: form-data; name=\"uploadedfile\";filename=\"" + pathToOurFile +"\"" + lineEnd);
+            outputStream.writeBytes(lineEnd);
+
+            bytesAvailable = fileInputStream.available();
+            bufferSize = Math.min(bytesAvailable, maxBufferSize);
+            buffer = new byte[bufferSize];
+
+            // Read file
+            bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+
+            while (bytesRead > 0)
+            {
+                outputStream.write(buffer, 0, bufferSize);
+                bytesAvailable = fileInputStream.available();
+                bufferSize = Math.min(bytesAvailable, maxBufferSize);
+                bytesRead = fileInputStream.read(buffer, 0, bufferSize);
+            }
+
+            outputStream.writeBytes(lineEnd);
+            outputStream.writeBytes(twoHyphens + boundary + twoHyphens + lineEnd);
+
+            // Responses from the server (code and message)
+
+            String serverResponseMessage = connection.getResponseMessage();
+            Log.i("Call Recorder",serverResponseMessage);
+
+            fileInputStream.close();
+            outputStream.flush();
+            outputStream.close();
+        }
+        catch (Exception ex)
+        {
+            //Exception handling
         }
     }
 
