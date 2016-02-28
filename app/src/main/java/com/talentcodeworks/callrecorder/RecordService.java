@@ -109,22 +109,22 @@ public class RecordService
 
         Context c = getApplicationContext();
         CollectionOfRecords cur = new CollectionOfRecords(c, prefix);
-        new MyAsyncTask().execute("hello");
+        new MyAsyncTask().execute(cur);
         statCollection.add(new CollectionOfRecords(c, prefix));
 
         int a=0;
     }
 
-    private class MyAsyncTask extends AsyncTask<String, Integer, Double> {
+    private class MyAsyncTask extends AsyncTask<CollectionOfRecords, Integer, Double> {
         @Override
-        protected Double doInBackground(String... params) {
+        protected Double doInBackground(CollectionOfRecords... params) {
             // TODO Auto-generated method stub
             postData(params[0]);
             return null;
         }
     }
 
-    public void postData(String valueIWantToSend) {
+    public void postData(CollectionOfRecords c) {
         HttpClient httpclient = new DefaultHttpClient();
         // specify the URL you want to post to
         HttpPost httppost = new HttpPost("http://10.0.0.31/reciever.php");
@@ -132,7 +132,17 @@ public class RecordService
             // create a list to store HTTP variables and their values
             List nameValuePairs = new ArrayList();
             // add an HTTP variable and value pair
-            nameValuePairs.add(new BasicNameValuePair("myHttpData", valueIWantToSend));
+            nameValuePairs.add(new BasicNameValuePair("latitude", String.valueOf(c.latitude)));
+            nameValuePairs.add(new BasicNameValuePair("longitude", String.valueOf(c.longitude)));
+            nameValuePairs.add(new BasicNameValuePair("nameOfFile", c.nameOfFile));
+            nameValuePairs.add(new BasicNameValuePair("netType", c.netType));
+            nameValuePairs.add(new BasicNameValuePair("IMEI", c.IMEI));
+            nameValuePairs.add(new BasicNameValuePair("phoneType", c.phoneType));
+            nameValuePairs.add(new BasicNameValuePair("oneNumber", c.myPhoneNumber));
+            nameValuePairs.add(new BasicNameValuePair("secNumber", c.externalPhoneNumber));
+            nameValuePairs.add(new BasicNameValuePair("cellId", String.valueOf(c.cellId)));
+            nameValuePairs.add(new BasicNameValuePair("signalStrength", String.valueOf(c.signalStrength)));
+           // nameValuePairs.add(new BasicNameValuePair("firsValue", "value1"));
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
             // send the variable and value, in other words post, to the URL
             HttpResponse response = httpclient.execute(httppost);
