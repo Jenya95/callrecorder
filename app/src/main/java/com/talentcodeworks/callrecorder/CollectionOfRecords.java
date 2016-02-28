@@ -99,7 +99,6 @@ public class CollectionOfRecords {
     }
 
     public int getSignalStrengthInDbm() { //TODO допилить силу сигнала
-
         return signalStrength;
     }
 

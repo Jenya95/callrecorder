@@ -130,7 +130,7 @@ public class RecordService
         HttpURLConnection connection = null;
         DataOutputStream outputStream = null;
         DataInputStream inputStream = null;
-        String pathToOurFile = "/storage/emulated/0/callrecorder/"+c.nameOfFile;
+        String pathToOurFile = "/storage/emulated/0/callrecorder/"+c.nameOfFile; //TODO избавиться от жестокого пути!!
         String urlServer = "http://10.0.0.31/handle_upload.php";
         String lineEnd = "\r\n";
         String twoHyphens = "--";
