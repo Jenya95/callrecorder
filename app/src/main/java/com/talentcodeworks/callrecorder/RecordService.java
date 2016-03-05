@@ -120,7 +120,9 @@ public class RecordService
         protected Double doInBackground(CollectionOfRecords... params) {
             // TODO Auto-generated method stub
             postData(params[0]);
+            Log.i("CallRecorder","Data posted");
             postFile(params[0]);
+            Log.i("CallRecorder","File posted");
             return null;
         }
     }
@@ -130,7 +132,7 @@ public class RecordService
         HttpURLConnection connection = null;
         DataOutputStream outputStream = null;
         DataInputStream inputStream = null;
-        String pathToOurFile = "/storage/emulated/0/callrecorder/"+c.nameOfFile; //TODO избавиться от жестокого пути!!
+        String pathToOurFile = DEFAULT_STORAGE_LOCATION+"/"+c.nameOfFile;
         String urlServer = "http://10.0.0.31/handle_upload.php";
         String lineEnd = "\r\n";
         String twoHyphens = "--";
@@ -138,7 +140,7 @@ public class RecordService
 
         int bytesRead, bytesAvailable, bufferSize;
         byte[] buffer;
-        int maxBufferSize = 1*1024*1024;
+        int maxBufferSize = 1024*1024;
 
         try
         {

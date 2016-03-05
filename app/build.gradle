@@ -6,8 +6,8 @@ android {
 
     defaultConfig {
         applicationId "com.talentcodeworks.callrecorder"
-        minSdkVersion 4
-        targetSdkVersion 4
+        minSdkVersion 17
+        targetSdkVersion 17
     }
 
     buildTypes {
@@ -16,4 +16,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
         }
     }
+
+    dependencies {
+        compile 'org.apache.httpcomponents:httpcore:4.4.1'
+        compile 'org.apache.httpcomponents:httpclient:4.5'
+    }
+
+    useLibrary 'org.apache.http.legacy'
 }
