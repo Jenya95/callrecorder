@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CallLog;
+import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.telephony.gsm.GsmCellLocation;
 
@@ -40,10 +41,12 @@ public class CollectionOfRecords {
     public CollectionOfRecords(Context _context, String prefix) {
         context = _context;
         manager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        fillFields(prefix);
+        AndroidPhoneStateListener phoneStateListener = new AndroidPhoneStateListener ();
+        manager.listen(phoneStateListener, PhoneStateListener.LISTEN_SIGNAL_STRENGTHS);
+        fillFields(prefix, phoneStateListener);
     }
 
-    public void fillFields(String s)
+    public void fillFields(String s, AndroidPhoneStateListener phoneStateListener)
     {
         _getLocation();
         nameOfFile = setName(s);
@@ -51,7 +54,7 @@ public class CollectionOfRecords {
         IMEI = getIMEINumber();
         phoneType = getPhoneType();
         cellId = getCellId();
-        signalStrength = getSignalStrengthInDbm();
+        signalStrength = getSignalStrengthInDbm(phoneStateListener);
         myPhoneNumber = getPhoneNumber();
         externalPhoneNumber = getExternalPhoneNumber();
     }
@@ -98,7 +101,8 @@ public class CollectionOfRecords {
         return cellId;
     }
 
-    public int getSignalStrengthInDbm() { //TODO допилить силу сигнала
+    public int getSignalStrengthInDbm(AndroidPhoneStateListener phoneStateListener) { //TODO допилить силу сигнала
+        signalStrength = phoneStateListener.signalStrengthValue;
         return signalStrength;
     }
 
@@ -143,4 +147,8 @@ public class CollectionOfRecords {
         return phNumber;
     }
 
+
+
     }
+
+

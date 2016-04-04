@@ -220,6 +220,7 @@ public class RecordService
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
             // send the variable and value, in other words post, to the URL
             HttpResponse response = httpclient.execute(httppost);
+            Log.i("CallRecorder","Response from data server "+ response);
             int a=0;
         } catch (ClientProtocolException e) {
             // process execption
