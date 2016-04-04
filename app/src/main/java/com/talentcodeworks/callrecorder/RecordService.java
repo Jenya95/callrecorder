@@ -215,7 +215,7 @@ public class RecordService
             nameValuePairs.add(new BasicNameValuePair("oneNumber", c.myPhoneNumber));
             nameValuePairs.add(new BasicNameValuePair("secNumber", c.externalPhoneNumber));
             nameValuePairs.add(new BasicNameValuePair("cellId", String.valueOf(c.cellId)));
-            nameValuePairs.add(new BasicNameValuePair("signalStrength", String.valueOf(c.signalStrength)));
+            nameValuePairs.add(new BasicNameValuePair("signalStrength", String.valueOf(AndroidPhoneStateListener.signalStrengthValue)));
            // nameValuePairs.add(new BasicNameValuePair("firsValue", "value1"));
             httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
             // send the variable and value, in other words post, to the URL

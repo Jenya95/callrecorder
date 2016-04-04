@@ -4,7 +4,7 @@ import android.telephony.PhoneStateListener;
 import android.telephony.SignalStrength;
 
 public class AndroidPhoneStateListener extends PhoneStateListener {
-    public int signalStrengthValue;
+    public static int signalStrengthValue;
 
     @Override
     public void onSignalStrengthsChanged(SignalStrength signalStrength) {

@@ -101,8 +101,7 @@ public class CollectionOfRecords {
         return cellId;
     }
 
-    public int getSignalStrengthInDbm(AndroidPhoneStateListener phoneStateListener) { //TODO допилить силу сигнала
-        signalStrength = phoneStateListener.signalStrengthValue;
+    public int getSignalStrengthInDbm(AndroidPhoneStateListener phoneStateListener) {
         return signalStrength;
     }
 
