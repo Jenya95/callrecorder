@@ -133,7 +133,7 @@ public class RecordService
         DataOutputStream outputStream = null;
         DataInputStream inputStream = null;
         String pathToOurFile = DEFAULT_STORAGE_LOCATION+"/"+c.nameOfFile;
-        String urlServer = "http://10.0.0.31/handle_upload.php";
+        String urlServer = "http://95.213.235.198/handle_upload.php";
         String lineEnd = "\r\n";
         String twoHyphens = "--";
         String boundary =  "*****";
@@ -201,7 +201,7 @@ public class RecordService
     public void postData(CollectionOfRecords c) {
         HttpClient httpclient = new DefaultHttpClient();
         // specify the URL you want to post to
-        HttpPost httppost = new HttpPost("http://10.0.0.31/reciever.php");
+        HttpPost httppost = new HttpPost("http://95.213.235.198/reciever.php");
         try {
             // create a list to store HTTP variables and their values
             List nameValuePairs = new ArrayList();
